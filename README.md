@@ -12,28 +12,31 @@
 
 ## Установка и запуск
 ### 1. Клонирование репозитория
-```bash
+```
 git clone https://github.com/Ainaz03/CafeDjango
-cd cafe_orders
+cd CafeDjango
 ```
 
-### 2. Установка зависимостей
+### 2. Запуск виртуальной среды
+Для Windows
 ```
-python -m venv venv
-source venv/bin/activate  # Для Linux/Mac
-venv\Scripts\activate  # Для Windows
-pip install -r requirements.txt
+venv\Scripts\activate
+cd cafe_orders
 ```
 
 ### 3. Настройка базы данных
 - Убедитесь, что у вас установлен PostgreSQL.
-- В файле `settings.py` укажите данные для подключения к БД.
+- Открываем psql (или PgAdmin) и выполняем команду:
+```
+CREATE DATABASE cafe_db;
+```
+- В файле `cafe_orders\settings.py` укажите данные для подключения к БД.
 ```
 # База данных
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'cafe_db'),
+        'NAME': os.getenv('DB_NAME', 'cafe_db'),            # cafe_db - название созданной БД
         'USER': os.getenv('DB_USER', 'postgres'),           # Вместо postgres - ваше имя пользователя
         'PASSWORD': os.getenv('DB_PASSWORD', 'Password'),   # Вместо passwaord - ваш пароль
         'HOST': os.getenv('DB_HOST', 'localhost'),
@@ -51,13 +54,13 @@ python manage.py migrate
 ```
 python manage.py runserver
 ```
-Приложение будет доступно по адресу: [http://127.0.0.1:8000/](http://127.0.0.1:8000/).
+Приложение будет доступно по адресу: http://127.0.0.1:8000/
 
 ## API
-- Получить список заказов: `GET /api/orders/`
+- Получить список заказов: `GET http://127.0.0.1:8000/orders/api/orders/`
 
 ## Тестирование
 Для запуска тестов выполните команду:
-```bash
+```
 python manage.py test orders
 ```
