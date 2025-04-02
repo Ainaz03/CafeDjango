@@ -1,0 +1,60 @@
+<h1>📋 Список заказов</h1>
+
+<form method="get" style="margin-bottom: 15px;">
+    <input type="text" name="query" placeholder="Введите номер стола или статус" 
+           style="width: 250px; padding: 5px;">
+    <button type="submit" style="padding: 5px 10px; cursor: pointer;">🔍 Искать</button>
+</form>
+
+<!-- Кнопки управления -->
+<a href="{% url 'create_order' %}" 
+   style="display: inline-block; padding: 8px 15px; background-color: green; 
+          color: white; text-decoration: none; border-radius: 5px; margin-right: 10px;">
+    ➕ Создать заказ
+</a>
+<a href="{% url 'daily_revenue' %}" 
+   style="display: inline-block; padding: 8px 15px; background-color: blue; 
+          color: white; text-decoration: none; border-radius: 5px;">
+    💰 Доход
+</a>
+
+<table border="1" style="width: 100%; margin-top: 20px; border-collapse: collapse; text-align: center;">
+    <thead>
+        <tr style="background-color: #f4f4f4;">
+            <th>ID</th>
+            <th>Номер стола</th>
+            <th>Список блюд</th>
+            <th>Общая стоимость</th>
+            <th>Статус</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>🪑 {{ order.table_number }}</td>
+                <td>
+                    <pre style="white-space: pre-wrap; text-align: left;">{{ order.items }}</pre>
+                </td>
+                <td>💵 {{ order.total_price }}</td>
+                <td>
+                    <form action="{% url 'update_status' order.id %}" method="post">
+                        {% csrf_token %}
+                        <select name="status" onchange="this.form.submit()">
+                            <option value="waiting" {% if order.status == "waiting" %}selected{% endif %}>🟡 В ожидании</option>
+                            <option value="ready" {% if order.status == "ready" %}selected{% endif %}>🟢 Готово</option>
+                            <option value="paid" {% if order.status == "paid" %}selected{% endif %}>🔵 Оплачено</option>
+                        </select>
+                    </form>
+                </td>
+                <td>
+                    <a href="{% url 'delete_order' order.id %}" onclick="return confirm('Удалить заказ?');" 
+                       style="color: red; text-decoration: none; font-weight: bold;">
+                        ❌ Удалить
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

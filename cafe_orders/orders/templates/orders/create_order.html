@@ -1,0 +1,21 @@
+<h1>➕ Создать заказ</h1>
+
+<form method="POST" style="max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px;">
+    {% csrf_token %}
+
+    <label for="table_number">🪑 Номер стола:</label>
+    <input type="number" id="table_number" name="table_number" required placeholder="Введите номер стола"
+           style="width: 100%; padding: 5px; margin-bottom: 10px;">
+
+    <label for="items">🍽️ Блюда:</label>
+    <textarea id="items" name="items" required placeholder="Введите список блюд"
+              style="width: 100%; padding: 5px; margin-bottom: 10px; height: 80px;"></textarea>
+
+    <label for="total_price">💵 Общая стоимость:</label>
+    <input type="number" id="total_price" name="total_price" step="0.01" required placeholder="Введите сумму"
+           style="width: 100%; padding: 5px; margin-bottom: 10px;">
+
+    <button type="submit" style="width: 100%; padding: 10px; background-color: green; color: white; border: none; cursor: pointer;">
+        ✅ Создать заказ
+    </button>
+</form>
